@@ -62,7 +62,7 @@ public class Ball3 : MonoBehaviour
             if (Time.time - startTime >= maxtime)
             {
                 keepRunning = false;
-
+                
                 break;
             }
 

@@ -306,9 +306,8 @@ MonoBehaviour:
   nameInput: {fileID: 955548338}
   Score: {fileID: 1963298292}
   spawntime: 2.1
-  score: 30
+  score: 0
   count: 0
-  NameInput: {fileID: 0}
   IsStart: 0
 --- !u!1 &126724786
 GameObject:

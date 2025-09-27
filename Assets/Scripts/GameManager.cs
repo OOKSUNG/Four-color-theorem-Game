@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
@@ -14,14 +13,14 @@ public class GameManager : MonoBehaviour
     public InputField nameInput;
     public Text Score;
     public float spawntime = 5.1f;
-    public float score = 30f;
+    public float score = 0f;
     public int count = 0;
-    public InputField NameInput;
+
     public bool IsStart = false;
 
     private bool isScoreSent = false;
     private string playerName = "Guest"; // 기본값
-    private string apiUrl = "http://localhost:3000";
+    private string apiUrl = "http://api:3000";
 
     //싱글톤
     public static GameManager Instance;
@@ -83,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(Balls[Random.Range(0, 4)], new Vector3(0, 5.5f, 0), Quaternion.identity);
             count++;
+            score++;
             yield return new WaitForSeconds(spawntime);
         }
     }
@@ -94,9 +94,14 @@ public class GameManager : MonoBehaviour
         StartButton.SetActive(false);
         IsStart = true;
         isScoreSent = false;
+        StopAllCoroutines();
         StartCoroutine(RepeatEveryFiveSeconds());
-        playerName = nameInput.text;
-        Debug.Log("플레이어 이름: " + playerName);
+
+        if (!string.IsNullOrEmpty(nameInput.text))
+        {
+            playerName = nameInput.text;
+            Debug.Log("Player name set: " + playerName);
+        }
     }
 
     public void Restart()
@@ -109,15 +114,6 @@ public class GameManager : MonoBehaviour
         isScoreSent = false;
     }
 
-    //추가
-    public void SetPlayerName()
-    {
-        if (!string.IsNullOrEmpty(NameInput.text))
-        {
-            playerName = NameInput.text;
-            Debug.Log("Player name set: " + playerName);
-        }
-    }
 
     // 이름+점수 API 전송
     IEnumerator SendScoreToServer(string name, float score)
