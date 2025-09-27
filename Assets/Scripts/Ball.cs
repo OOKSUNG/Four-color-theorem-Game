@@ -35,6 +35,7 @@ public class Ball : MonoBehaviour
         if (!keepRunning)
         {
             ballRigidbody.gravityScale = 1;
+            ballRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         }
     }
 
@@ -50,7 +51,7 @@ public class Ball : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         gameObject.SetActive(false);
         GameManager.Instance.score -= 0.5f;
